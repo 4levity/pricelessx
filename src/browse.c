@@ -5,6 +5,7 @@
   
 static slot* selected_event;
 static int selected_location_id;
+static GBitmap* selected_bitmap;
 
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
 static Window *s_window;
@@ -84,8 +85,13 @@ void show_event() {
     struct tm *tick_time = localtime(&selected_event->start);
     snprintf(desc,80,"%s-%s:\n%s",t1,t2,selected_event->description);
     
-    if(selected_event->hype) {
-      bitmap_layer_set_bitmap(layer_logo, selected_event->hype);
+    if(selected_event->hype_id) {
+      if(selected_bitmap) {
+        gbitmap_destroy(selected_bitmap);
+        selected_bitmap=0;
+      }
+      selected_bitmap=gbitmap_create_with_resource(selected_event->hype_id);
+      bitmap_layer_set_bitmap(layer_logo, selected_bitmap);
       layer_set_hidden((Layer*) layer_logo,false);
     } else {
       layer_set_hidden((Layer*) layer_logo,true);
@@ -103,47 +109,68 @@ void show_event() {
     text_layer_set_text(layer_location,get_location(selected_location_id));
   }
 }
+
+void scroll_up() {
+  slot* new_event = selected_event;
+  while(new_event->previous) {
+    //APP_LOG(APP_LOG_LEVEL_INFO, "searching up for event at location %d..",selected_location_id);
+    new_event = new_event->previous;
+    if(new_event->location == get_location(selected_location_id)) {
+      selected_event=new_event;
+      //APP_LOG(APP_LOG_LEVEL_INFO, "found event %s..",selected_event->description);
+      show_event();
+      return;
+    }
+  }
+}
+
+void scroll_down() {
+  slot* new_event = selected_event;
+  while(new_event->next) {
+    new_event = new_event->next;
+    if(new_event->location == get_location(selected_location_id)) {
+      selected_event=new_event;
+      show_event();
+      return;
+    }
+  }
+}
+
 void auto_select_event() {
   static time_t now;
   time(&now);
-  selected_event = get_nearest_event_at(selected_location_id,&now);
-  APP_LOG(APP_LOG_LEVEL_INFO, "auto selected event %s",selected_event?selected_event->description:"NULL");
-  show_event();
+  get_upcoming_events(&selected_event,1,&now);
+  if(!selected_event) {
+    selected_event=get_last();
+  }
+  APP_LOG(APP_LOG_LEVEL_INFO, "auto selected event %s. location=%d %s"
+	,selected_event?selected_event->description:"NULL",
+ 	selected_location_id,get_location(selected_location_id));
+  
+  scroll_up(); 
+  scroll_down();
+  APP_LOG(APP_LOG_LEVEL_INFO, "scrolled up to event %s",selected_event?selected_event->description:"NULL");
+  //selected_event = get_nearest_event_at(selected_location_id,&now);
+  //APP_LOG(APP_LOG_LEVEL_INFO, "auto selected event %s",selected_event?selected_event->description:"NULL");
+  //show_event();
 }
+
 static void down_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   if(selected_event) {
-    slot* new_event = selected_event;
-    while(new_event->next) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "searching down for event at location %d..",selected_location_id);
-      new_event = new_event->next;
-      if(new_event->location == get_location(selected_location_id)) {
-        selected_event=new_event;
-        APP_LOG(APP_LOG_LEVEL_INFO, "found event %s..",selected_event->description);
-        show_event();
-        return;
-      }
-    }
+    scroll_down();
   } else {
     auto_select_event();
   }
 }
+
 void up_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   if(selected_event) {
-    slot* new_event = selected_event;
-    while(new_event->previous) {
-      APP_LOG(APP_LOG_LEVEL_INFO, "searching up for event at location %d..",selected_location_id);
-      new_event = new_event->previous;
-      if(new_event->location == get_location(selected_location_id)) {
-        selected_event=new_event;
-        APP_LOG(APP_LOG_LEVEL_INFO, "found event %s..",selected_event->description);
-        show_event();
-        return;
-      }
-    }
+    scroll_up();
   } else {
     auto_select_event();
   }
 }
+
 void select_single_click_handler(ClickRecognizerRef recognizer, void *context) {
   selected_location_id = (selected_location_id+1) % get_num_locations();
   auto_select_event();
@@ -167,6 +194,7 @@ void show_browse(void) {
   initialise_ui();
   selected_location_id=0;
   selected_event=0;
+  selected_bitmap=0;
   auto_select_event();
   
   window_set_window_handlers(s_window, (WindowHandlers) {

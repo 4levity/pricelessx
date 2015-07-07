@@ -19,6 +19,11 @@ unsigned char get_num_locations() {
 char* get_location(unsigned char location_id) {
   return locations[location_id];
 }
+
+slot* get_last() {
+  return last;
+}
+/*
 slot* get_nearest_event_at(int location_id,time_t* time) {
   slot* e=first;
   slot* found_any=0;
@@ -33,7 +38,7 @@ slot* get_nearest_event_at(int location_id,time_t* time) {
   }
   return found_any;
 }
-
+*/
 unsigned char get_current_events(slot** event_list,unsigned char max_events,time_t* now) {
   unsigned char events = 0;
   slot* e = first;
@@ -42,7 +47,7 @@ unsigned char get_current_events(slot** event_list,unsigned char max_events,time
       event_list[events++]=e;
     }
     e = e->next;
-  }  
+  }
   return events;
 }
 
@@ -93,7 +98,7 @@ void insert(slot* new_slot) {
   }
 }
 
-void create(unsigned char location_id,char* description,unsigned char day, unsigned char hour, unsigned char minute,int duration,int hype_id) {
+void create(unsigned char location_id,char* description,unsigned char day, unsigned char hour, unsigned char minute,int duration,unsigned int hype_id) {
   slot* new_slot = (slot*)malloc(sizeof(slot));
   new_slot->location=locations[location_id];
   new_slot->description=description;
@@ -106,12 +111,15 @@ void create(unsigned char location_id,char* description,unsigned char day, unsig
   t.tm_min=minute;
   new_slot->start = mktime(&t);
   new_slot->end = (new_slot->start) + (60 * (int)duration);
+  new_slot->hype_id=hype_id;
+/*
   if(hype_id) {
     APP_LOG(APP_LOG_LEVEL_DEBUG, "loading image for %s",new_slot->description);
     new_slot->hype=gbitmap_create_with_resource(hype_id);
   } else {
     new_slot->hype=0;
   }
+*/
   insert(new_slot);
 }
 
@@ -238,9 +246,9 @@ void destroy_event_data() {
   slot *next;
   while(first != NULL) {
     next=first->next;
-    if(first->hype) {
-      gbitmap_destroy(first->hype);
-    }
+ //   if(first->hype) {
+ //     gbitmap_destroy(first->hype);
+ //   }
     free(first);
     first=next;
   }

@@ -2,6 +2,8 @@
 #include "eventtext.h"
 #include "eventdata.h"
 
+static GBitmap* current_hype=0;
+
 void short_time(time_t* tim,char buffer[SHORT_TIME_LEN]) {
   struct tm *event_time = localtime(tim);
   char m;
@@ -66,10 +68,10 @@ static void describe_events(char* caller_buffer,int size,slot** events,int num_e
       if(event->start != last_start_time) {
         short_time(&(event->start),tbuffer);
         snprintf(buf,EVENT_TEXT_MAX,"%s%s-%s",(caller_buffer[0]?"\n":""),tbuffer,event->description);
-        space_left=append(caller_buffer,size,buf);
       } else {
         snprintf(buf,EVENT_TEXT_MAX,", %s",event->description);
       }
+      space_left=append(caller_buffer,size,buf);
       last_start_time=event->start;
     }
   }
@@ -89,8 +91,11 @@ char* describe_current_events(GBitmap** hype,time_t* now) {
   if(num_current > 0) {
     for(i=0;i<num_current;i++) {
       event = current_events[i];
-      if(event->hype) {
-        *hype=event->hype;
+      if(event->hype_id) {
+        if(current_hype)
+          gbitmap_destroy(current_hype);
+        current_hype=gbitmap_create_with_resource(event->hype_id);
+        *hype=current_hype;
         break;
       }
     }
