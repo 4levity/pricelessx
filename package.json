@@ -4,9 +4,6 @@
     "keywords": [],
     "name": "priceless",
     "pebble": {
-        "capabilities": [
-            ""
-        ],
         "displayName": "Priceless 2016",
         "enableMultiJS": true,
         "messageKeys": [],
