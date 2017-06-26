@@ -11,6 +11,13 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/baroo25x25.png",
+                    "menuIcon": true,
+                    "name": "PRICELESSX_APP_ICON",
+                    "targetPlatforms": null,
+                    "type": "png"
+                },
+                {
                     "file": "images/up14x14.png",
                     "name": "ICON_UP",
                     "type": "png"
@@ -63,12 +70,6 @@
                 {
                     "file": "images/baroo56x48.png",
                     "name": "IMAGE_LOGO_BAROO",
-                    "type": "png"
-                },
-                {
-                    "file": "images/baroo28x28.png",
-                    "menuIcon": true,
-                    "name": "PRICELESSX_APP_ICON",
                     "type": "png"
                 }
             ]

@@ -53,7 +53,7 @@ static void initialise_ui(void) {
   layer_add_child(window_get_root_layer(s_window), (Layer *)layer_details);
   
   // layer_logo
-  layer_logo = bitmap_layer_create(GRect(0, 48, 144, 120));
+  layer_logo = bitmap_layer_create(GRect(0, 47, 144, 120));
   layer_add_child(window_get_root_layer(s_window), (Layer *)layer_logo);
 }
 

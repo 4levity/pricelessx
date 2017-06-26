@@ -2,9 +2,9 @@
 #include <sys/time.h>
 #include "eventdata.h"
 
-static int year0=2016;
-static int month0=7;
-static int day0=0;
+static int year0=2017;
+static int month0=6;
+static int day0=29;
 
 static char* locations[]={"dirt","forest","beach","outpost","other"};
 static slot* first=NULL;
@@ -105,8 +105,13 @@ void create(unsigned char location_id,char* description,unsigned char day, unsig
   struct tm t;
   memcpy(&t,&time_maker,sizeof(struct tm));
   t.tm_year=year0-1900;
-  t.tm_mon=month0-1;
-  t.tm_mday=day0+day; /* works because event is within same month..*/
+  if (month0 == 6 && day0+day > 30) {
+    t.tm_mon=month0;
+    t.tm_mday=day0+day-30;
+  } else {
+    t.tm_mon=month0-1;
+    t.tm_mday=day0+day;
+  }
   t.tm_hour=hour;
   t.tm_min=minute;
   new_slot->start = mktime(&t);
@@ -131,118 +136,127 @@ void init_event_data() {
   /* "dirt","forest","beach","outpost","elsewhere" */
   
   // dirt
-  create(0,"Secret Recipe",1,22,0,60,0);
-  create(0,"Labrat",1,23,0,60,0);
+  create(0,"Tasstik",1,21,0,60,0);
+  create(0,"roflcactus",1,22,0,60,0);
+  create(0,"Kid Kameleon",1,23,0,60,0);
   create(0,"Obi-J",2,0,0,60,RESOURCE_ID_IMAGE_HYPE_OBI_J);
-  create(0,"Elevated Mind",2,1,0,60,0);
-  create(0,"Devin Kroes",2,2,0,60,0);
-  create(0,"Big Joe Daddy",2,21,0,60,0);
-  create(0,"Fungineers",2,22,0,60,0);
-  create(0,"Tinker",2,23,0,60,RESOURCE_ID_IMAGE_HYPE_TINKER);
-  create(0,"Sorrow",3,0,0,60,0);
-  create(0,"Psymbionic",3,1,0,60,0);
-  create(0,"Spoken Bird",3,2,0,60,0);
-  create(0,"SteLouse",3,3,0,60,0);
-  create(0,"X&G",3,4,0,60,0);
-  create(0,"Charlesthefirst",3,5,0,60,0);
-  create(0,"Dailon",3,6,0,60,0);
-  create(0,"JK47",3,21,0,60,0);
-  create(0,"Space Geisha",3,22,0,60,0);
-  create(0,"Boudoir Research",3,23,0,60,0);
-  create(0,"Greazus",4,0,0,60,0);
-  create(0,"Ill Gates",4,1,0,60,0);
-  create(0,"kLL sMTH",4,2,0,60,0);
-  create(0,"Shramp",4,3,0,60,0);
-  create(0,"Bogtrotter",4,4,0,60,0);
-  create(0,"Tones",4,5,0,60,0);
+  create(0,"Mansion",2,1,0,60,0);
+  create(0,"Shramp",2,2,0,60,0);
+  
+  create(0,"SheRa",2,21,0,60,0);
+  create(0,"COPYCATT",2,22,0,60,0);
+  create(0,"Elevated Mind",2,23,0,60,0);
+  create(0,"Of The Trees",3,0,0,60,0);
+  create(0,"Tinker",3,1,0,60,RESOURCE_ID_IMAGE_HYPE_TINKER);
+  create(0,"ill.Gates",3,2,0,60,0);
+  create(0,"Doctor Jeep",3,3,0,60,0);
+  create(0,"GREAZUS",3,4,0,60,0);
+  create(0,"Zenotope",3,5,0,60,0);
+  
+  create(0,"Jonny Ha$h",3,21,0,60,0);
+  create(0,"Spoken Bird",3,22,0,60,0);
+  create(0,"CharlestheFirst",3,23,0,60,0);
+  create(0,"CloZee",4,0,0,60,0);
+  create(0,"SOOHAN",4,1,0,60,0);
+  create(0,"Perkulat0r",4,2,0,60,0);
+  create(0,"Bodhi McBoatface",4,3,0,60,0);
+  create(0,"XPRXO",4,4,0,60,0);
 
-  // events
-  create(1,"Hoops with Leila",2,10,0,60,0);
-  create(3,"Inner Power Animal",2,10,0,60,0);
+  // pwp
+  create(0,"Birds of Distinction",3,19,0,120,0);
+  // events - forest sat
+  create(1,"Breathwork w/ Domini",2,9,0,60,0);
+  create(1,"Capoeira w/ Megha",2,10,0,60,0);
   create(1,"AcroYoga",2,11,0,90,0);
-  create(4,"Slackline",2,12,0,60,0);
-  create(1,"Peak Experience",2,12,30,60,0);
-  create(4,"Portrait Test",2,13,0,60,0);
-  create(1,"Clown Customs",2,14,0,60,0);
-  create(4,"Bad Idea Party Games",2,14,0,120,0);
-  create(1,"Priceless in a Bottle",2,15,0,60,0);
-  create(4,"Ice Cream Dance Party",2,15,0,60,0);
-  create(3,"Spa Belden",2,16,0,60,0);
-  create(1,"Flow Arts",2,17,0,90,0);
-  create(4,"Improv with Moldover",2,18,0,60,0);
-  create(2,"Port & Poetry",3,6,0,60,0);
-  create(1,"Meditation",3,9,0,60,0);
-  create(4,"Acro Games",3,10,0,60,0);
-  create(1,"Gyrokinesis",3,11,0,60,0);
-  create(0,"Japanese Sword Fighting",3,11,0,60,0);
-  create(4,"Molkky",3,13,0,60,0);
-  create(1,"Hug Workship with Issac",3,14,0,60,0);
-  create(1,"Juggling Workshop",3,15,0,60,0);
-  create(3,"Herbal Refresh",3,15,0,60,0);
-  create(4,"Inner Tube Craft",3,15,0,60,0);
-  create(1,"Couples Massage",3,16,0,60,0);
-  create(3,"Transformation with Bisi",3,16,0,60,0);
-  create(4,"Buugeng 101",3,16,0,60,0);
-  create(1,"Ignite Talks",3,17,0,60,0);
-  create(3,"Sprezzatura",3,17,0,60,0);
-  create(1,"Remembering the Magic Moment",3,18,0,60,0);
-  create(0,"Save Mos Eisley Cantina",3,19,0,120,0);
-  create(4,"Midnight Poetry at the Tracks",4,0,0,60,0);
+  create(1,"Sewing with Sena",2,16,0,60,0);
+  // events - forest sun
+  create(1,"Moving the Expressive Body",3,10,0,60,0);
+  create(1,"Parkour Through Physics",3,11,0,60,0);
+  create(1,"Journaling with Stina",3,12,0,60,0);
+  create(1,"Sensory Depriviation Massage",3,16,0,60,0);
+  create(1,"Ignite Talks",3,18,0,60,0);
+  // events - outpost fri
+  create(3,"Aura Cleansing & Fluffing 101 with Eva",1,19,0,60,0);
+  // events - outpost sat
+  create(3,"No Complaining w/ Cianna",2,12,0,60,0);
+  create(3,"Connecting Through Questions",2,15,0,60,0);
+  create(3,"Play: Spontaneous Interaction",2,16,0,60,0);
+  create(3,"Single Origin Cacao",2,17,0,60,0);
+  // events - outpost sun
+  create(3,"Knot Workshop",3,11,0,60,0);
+  create(3,"Bird Costuming & Masks",3,12,0,60,0);
+  create(3,"Earthly Delighted Exploration",3,15,0,60,0);
+  create(3,"Yoga Nidra w/ Victoria",3,17,0,60,0);
+  // events - other sat
+  create(4,"Coffee Service w/ Sasha (lawn)",2,8,0,60,0);
+  create(4,"Rock Appreciation w/ Gates (lodge)",2,9,0,60,0);
+  create(0,"Kenjutsu with Joey",2,11,0,60,0);
+  create(4,"Bedazzling (picnic tables)",2,13,0,60,0);
+  create(4,"Liquid Nitrogen Ice Cream (picnic tables)",2,14,0,60,0);
+  create(4,"Wife Carrying Competition (lodge)",2,15,0,60,0);
+  create(4,"Cosmic Cosmetics w/ Hannah (lodge)",2,18,0,60,0);
+  create(4,"Poetry Club w/ David (tracks)",3,0,0,60,0);
+  // events - other sun
+  create(4,"Coffee Service w/ Sasha (lawn)",3,8,0,60,0);
+  create(4,"Marco Polo w/ EJ (water)",3,13,0,60,0);
+  create(4,"Let's Make a Pop Up Book (picnic tables)",3,14,0,60,0);
+  create(4,"Frankenstuffer (picnic tables)",3,15,0,60,0);
 
   // forest
-  create(1,"Griffin Crafts",1,21,30,60,0);
-  create(1,"Shipwrek",1,22,30,60,0);
-  create(1,"Rumpistol ft Tobias Buch",1,23,30,90,0);
-  create(1,"Olaf Stuut",2,1,00,60,0);
-  create(1,"Broxtronix",2,2,00,60,0);
-  create(1,"yMe",2,3,00,60,0);
+  create(1,"The Naturalist",1,21,30,60,0);
+  create(1,"Hickory",1,22,30,60,0);
+  create(1,"1974",1,23,30,60,RESOURCE_ID_IMAGE_HYPE_1974);
+  create(1,"Formanter",2,0,30,60,0);
+  create(1,"Ganucheau",2,1,30,60,RESOURCE_ID_IMAGE_HYPE_GANUCHEAU);
+  create(1,"Deru",2,2,30,90,0);
   create(1,"Sleep Party",2,4,00,240,0);
 
-  create(1,"1974",2,21,00,60,RESOURCE_ID_IMAGE_HYPE_1974);
-  create(1,"Arcus Tenebrae",2,22,00,60,0);
-  create(1,"Dr. Toast",2,23,00,60,RESOURCE_ID_IMAGE_HYPE_TOAST);
-  create(1,"Barrio Lindo",3,0,00,60,0);
-  create(1,"El Buho",3,1,00,60,0);
-  create(1,"Erin E",3,2,00,75,0);
-  create(1,"David Last & Lucas Vesely",3,3,15,75,0);
-  create(1,"Watsonix",3,4,30,60,0);
-  create(1,"Sleep Party",3,5,30,150,0);
+  create(1,"Daniel Berkman & Tom Lattanand",2,17,30,90,0);
+  create(1,"Licorice",2,21,00,60,0);
+  create(1,"Jyun Jyun",2,22,00,90,0);
+  create(1,"Barda",2,23,30,90,0);
+  create(1,"M.RUX",3,1,00,90,0);
+  create(1,"Ramona Wouters",3,2,30,90,0);
+  create(1,"Stephanie Luz",3,4,00,60,0);
   
-  create(1,"Daniel Berkman & Tom Lattanand",3,21,00,60,0);
-  create(1,"Bolo",3,22,00,75,0);
-  create(1,"History of Color",3,23,15,75,0);
-  create(1,"Lusine",4,0,30,75,0);
-  create(1,"Olaf Stuut live",4,1,45,75,0);
-  create(1,"Last/Toast",4,3,00,60,0);
-  create(1,"Ganucheau",4,4,00,60,RESOURCE_ID_IMAGE_HYPE_GANUCHEAU);
-  create(1,"Sleep Party",4,5,00,180,0);
+  create(1,"Contact Field Orchestra",3,21,00,90,0);
+  create(1,"Dr. Toast",3,22,30,60,RESOURCE_ID_IMAGE_HYPE_TOAST);
+  create(1,"Broxtronix",3,23,30,60,0);
+  create(1,"Tor",4,0,30,90,0);
+  create(1,"Boudoir Research",4,2,0,60,0);
+  create(1,"Griffin Crafts",4,3,00,60,0);
   
   // beach
-  create(2,"Bodhi McBoatface",2,11,0,60,0);
-  create(2,"El Papachanga",2,12,0,60,0);
-  create(2,"AfroQBen",2,13,0,60,0);
-  create(2,"SheRa",2,14,0,60,0);
-  create(2,"The OriGinALz",2,15,0,60,0);
-  create(2,"Electric Mantis",2,16,0,60,0);
-  create(2,"Imagined Herbal Flows",2,17,0,60,0);
-  create(2,"kudo",3,11,0,60,0);
-  create(2,"MAMA CROW",3,12,0,60,0);
-  create(2,"DJJD",3,13,0,60,0);
-  create(2,"Kid Kameleon",3,14,0,60,0);
-  create(2,"J*Labs",3,15,0,60,0);
-  create(2,"perkulat0r",3,16,0,60,0);
-  create(2,"Urple Eeple",3,17,0,60,0);
+  create(2,"Crayleb",2,11,0,60,0);
+  create(2,"Medisin",2,12,0,60,0);
+  create(2,"Neptune",2,13,0,60,0);
+  create(2,"JK-47",2,14,0,60,0);
+  create(2,"The Hood Internet",2,15,0,60,0);
+  create(2,"J*Labs",2,16,0,60,0);
+  create(2,"Tones",2,17,0,60,0);
+  
+  create(2,"Dov1",3,11,0,60,0);
+  create(2,"MissTANGQ",3,12,0,60,0);
+  create(2,"Undercat",3,13,0,60,0);
+  create(2,"Knowa",3,14,0,60,0);
+  create(2,"Megan Hamilton",3,15,0,60,0);
+  create(2,"Devin Kroes",3,16,0,60,0);
 
   // outpost
-  create(3,"Bisi",2,18,0,45,0);
-  create(3,"Tom Lattanand and Daniel Berkman",2,18,45,120,0);
-  create(3,"Tumbledown House",2,20,45,65,0);
-  create(3,"Noam Smooha",2,21,50,50,0);
-  create(3,"Graham Patzner",2,22,40,50,0);
-  create(3,"Olga Nunes",2,23,30,65,0);
-  create(3,"Brent Bishop",3,0,35,65,0);
-  create(3,"Bolo w/ Evan Frasier",3,1,40,60,0);
-  create(3,"Troubadours",3,18,30,150,0);
+  create(3,"Brother Kris Gospel/Blues",1,21,0,120,0);
+
+  create(3,"Cosmopolis",2,20,00,45,0);
+  create(3,"Bisi",2,21,00,45,0);
+  create(3,"The Sam Chase",2,22,00,45,0);
+  create(3,"Tumbledown House",2,23,15,75,0);
+  create(3,"El Elle",3,0,45,60,0);
+  create(3,"The Crux",3,2,00,75,0);
+  
+  create(3,"Tom Lattanand",3,21,00,45,0);
+  create(3,"Brent Bishop",3,22,00,60,0);
+  create(3,"Olga Nunes",3,23,15,75,0);
+  create(3,"John Brothers Piano Company",4,1,00,75,0);
+  create(3,"Daniel Berkman",4,2,30,60,0);
 }
 
 void destroy_event_data() {
