@@ -4,18 +4,36 @@
     "keywords": [],
     "name": "priceless",
     "pebble": {
-        "displayName": "Priceless 2016",
+        "displayName": "Priceless 2018",
         "enableMultiJS": true,
         "messageKeys": [],
         "projectType": "native",
         "resources": {
             "media": [
                 {
-                    "file": "images/baroo25x25.png",
+                    "file": "images/baroot25x25.png",
                     "menuIcon": true,
                     "name": "PRICELESSX_APP_ICON",
                     "targetPlatforms": null,
                     "type": "png"
+                },
+                {
+                    "file": "images/belden56x48.png",
+                    "name": "IMAGE_LOGO_BELDEN",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/kidk.png",
+                    "name": "IMAGE_HYPE_KIDK",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
+                    "file": "images/hype_bodhi.png",
+                    "name": "IMAGE_HYPE_BODHI",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/up14x14.png",
@@ -66,18 +84,16 @@
                     "file": "images/baroot56x48.png",
                     "name": "IMAGE_LOGO_BAROOT",
                     "type": "png"
-                },
-                {
-                    "file": "images/baroo56x48.png",
-                    "name": "IMAGE_LOGO_BAROO",
-                    "type": "png"
                 }
             ]
         },
         "sdkVersion": "3",
         "targetPlatforms": [
             "aplite",
-            "basalt"
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
         ],
         "uuid": "49b6d52d-bd28-4514-ae6b-f4d6b291243a",
         "watchapp": {

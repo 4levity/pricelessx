@@ -4,7 +4,7 @@
 #include "eventtext.h"
 #include "browse.h"
   
-static GBitmap *s_res_image_logo_baroo;
+static GBitmap *s_res_image_logo_belden;
 static GBitmap *s_res_image_logo_portal;
 
 // BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
@@ -77,7 +77,7 @@ static void destroy_ui(void) {
 
 static void handle_window_unload(Window* window) {
   destroy_ui();
-  gbitmap_destroy(s_res_image_logo_baroo);
+  gbitmap_destroy(s_res_image_logo_belden);
   gbitmap_destroy(s_res_image_logo_portal);
 }
 
@@ -99,7 +99,7 @@ static void win_config_provider(Window *window) {
 void show_win_watchface(void) {
   APP_LOG(APP_LOG_LEVEL_INFO, "showing pricelessx watchface");
   initialise_ui();
-  s_res_image_logo_baroo = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_LOGO_BAROO);
+  s_res_image_logo_belden = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_LOGO_BELDEN);
   s_res_image_logo_portal = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_LOGO_PORTAL);
   text_layer_set_text_color(layer_banner, GColorChromeYellow);
   text_layer_set_overflow_mode(layer_current,GTextOverflowModeTrailingEllipsis);
@@ -152,7 +152,7 @@ void update_time() {
     bitmap_layer_set_bitmap(layer_logo, s_res_image_logo_portal);
     break;
   default:
-    bitmap_layer_set_bitmap(layer_logo, s_res_image_logo_baroo);
+    bitmap_layer_set_bitmap(layer_logo, s_res_image_logo_belden);
   }
 }
 
